@@ -5,26 +5,25 @@ import CountryCard from "../components/country-card"
 import Filter from "../components/filter"
 import Header from "../components/header"
 import type { Theme } from '@mui/material/styles'
-import { useFetchCountriesQuery } from "./country.slice"
+import { Country, Query, useFetchCountriesQuery } from "./country.slice"
 import { useNavigate } from "react-router-dom"
 
 const Container = styled('div')(({theme}: {theme?: Theme}) => ({
   width: '100%',
   height: '100vh',
-  maxHeight: '100%',
   // overflowX: 'hidden',
 
   backgroundColor: theme!.palette.background.default,
-  paddingBottom: 50
+  paddingBottom: 100
 }))
 
 const Home = () => {
   const [continent, setContinent] = useState('');
   const [search, setSearch] = useState('')
-  const [query, setQuery] = useState<unknown>(20)
+  const [query, setQuery] = useState<Query>({ skip: 0, limit: 20, query: '' })
 
   const navigate = useNavigate()
-  const { data = [], isFetching } = useFetchCountriesQuery(query)
+  const { data = [], isFetching } = useFetchCountriesQuery<{data: Country[], isFetching: boolean}>(query)
 
   const handleFilter = (event: SelectChangeEvent) => {
     if(search.length) setSearch('')
@@ -33,21 +32,21 @@ const Home = () => {
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value
-    if (!query) return setSearch("")
+    if (!query) return setSearch("") 
     if(continent.length) setContinent('')
     setSearch(query)
   }
 
   const handleNavigation = (name: string) => {
     navigate(`/country-details/${name}`)
-  }
+  }  
 
   useEffect(() => {
     if (search.length) {
-      setQuery(`/name/${search}`)
+      setQuery((state: Query) => ({ ...state, query: `/name/${search}` }))
     } 
     if (continent.length) {
-      setQuery(`/region/${continent}`)
+      setQuery((state: Query) => ({ ...state, query: `/region/${continent}` }))
     }
   }, [continent, search])
   

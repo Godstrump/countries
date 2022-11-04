@@ -15,6 +15,12 @@ export type Language = {
     nativeName: string;
 };
 
+export type Query = {
+    skip: number;
+    limit: number;
+    query: string;
+};
+
 export interface Country {
     name: string;
     alpha3code: string;
@@ -39,22 +45,14 @@ export const countryApiSlice = createApi({
         baseUrl: `${API_URL}`,
     }),
     endpoints: (builder) => ({
-        fetchCountries: builder.query<Country[], unknown>({
+        fetchCountries: builder.query<Country[], Query>({
             query: (region) =>
-                typeof region === "string" ? `${region}` : "/all",
+                region.query.length ? `${region.query}` : "/all",
             transformResponse: (
                 response: Country[],
                 meta: unknown,
-                arg: string | number
-            ) => {
-                console.log(arg);
-
-                if (typeof arg === "string") {
-                    return response;
-                }
-
-                return response?.slice(0, arg);
-            },
+                arg: Query
+            ) => response?.slice(arg.skip, arg.skip + arg.limit),
         }),
         fetchCountry: builder.query<Country, string | void>({
             query: (region) => `/name/${region}`,
