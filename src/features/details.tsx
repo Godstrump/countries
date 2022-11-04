@@ -182,7 +182,7 @@ const Details = () => {
     </Container>
   ) : <Container>
         <Header />
-        <Body sx={{ mt: 23 }}>
+        <Body>
           <Image>
             <Skeleton
               animation="wave"
@@ -190,9 +190,9 @@ const Details = () => {
               height={400}
               variant="rectangular" />
           </Image>
-          <Box sx={{ width: '40%'}}>
+          <InfoContainer>
             <InfoHeader variant="h5"><Skeleton animation="wave" width="50%" /></InfoHeader>
-            <Stack direction="row" spacing={5}>
+            <Infos direction="row">
               <Stack direction="column" spacing={1}>
                 <Skeleton animation="wave" width={200} />
                 <Skeleton animation="wave" width={200} />
@@ -205,11 +205,11 @@ const Details = () => {
                 <Skeleton animation="wave" width={200} />
                 <Skeleton animation="wave" width={200} />
               </Stack>
-            </Stack>
-            <Stack sx={{ mt: 5, alignItems: 'center' }} direction="row" spacing={2}>
+            </Infos>
+            <BorderContainer>
               <Skeleton animation="wave" width={500} />
-            </Stack>
-          </Box>
+            </BorderContainer>
+          </InfoContainer>
         </Body>
       </Container>
 }
