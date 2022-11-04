@@ -8,11 +8,12 @@ const Btn = styled(Button)(({ theme } : {theme?: Theme}) => ({
     display: 'flex',
     alignItems: 'center',
     gap: 10,
+    textTransform: 'unset'
   }))
 
 const BorderCapital: FC<{ query: string}> = ({ query }): ReactElement => {
-    const { data, isFetching } = useFetchAlphaQuery<{ data: Country, isFetching: boolean }>(query)   
-
+    const { data, isFetching } = useFetchAlphaQuery<{ data: Country, isFetching: boolean }>(query) 
+    
     return data && !isFetching ? (
         <Btn variant="contained">{data.name}</Btn>
     ) : <></>
