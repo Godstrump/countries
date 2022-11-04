@@ -39,25 +39,29 @@ export const countryApiSlice = createApi({
         baseUrl: `${API_URL}`,
     }),
     endpoints: (builder) => ({
-        fetchCountries: builder.query<Country[], string>({
+        fetchCountries: builder.query<Country[], unknown>({
             query: (region) =>
-                region?.split("/")[2]?.length ? `${region}` : "/all",
-            transformResponse: (response: Country[]) => response?.slice(0, 40),
+                typeof region === "string" ? `${region}` : "/all",
+            transformResponse: (
+                response: Country[],
+                meta: unknown,
+                arg: string | number
+            ) => {
+                console.log(arg);
+
+                if (typeof arg === "string") {
+                    return response;
+                }
+
+                return response?.slice(0, arg);
+            },
         }),
         fetchCountry: builder.query<Country, string | void>({
             query: (region) => `/name/${region}`,
         }),
         fetchAlpha: builder.query<Country, string | void>({
             query: (code) => `/alpha/${code}`,
-            transformResponse: (
-                response: Country,
-                meta: unknown,
-                arg: unknown
-            ) => {
-                console.log(arg);
-
-                return response;
-            },
+            transformResponse: (response: Country) => response,
         }),
     }),
 });

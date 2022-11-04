@@ -10,17 +10,18 @@ import { useNavigate } from "react-router-dom"
 
 const Container = styled('div')(({theme}: {theme?: Theme}) => ({
   width: '100%',
-  height: '100%',
-  // overflow: 'hidden',
+  height: '100vh',
+  maxHeight: '100%',
+  // overflowX: 'hidden',
 
   backgroundColor: theme!.palette.background.default,
-  paddingBottom: 30
+  paddingBottom: 50
 }))
 
 const Home = () => {
   const [continent, setContinent] = useState('');
   const [search, setSearch] = useState('')
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState<unknown>(20)
 
   const navigate = useNavigate()
   const { data = [], isFetching } = useFetchCountriesQuery(query)
@@ -44,7 +45,8 @@ const Home = () => {
   useEffect(() => {
     if (search.length) {
       setQuery(`/name/${search}`)
-    } else {
+    } 
+    if (continent.length) {
       setQuery(`/region/${continent}`)
     }
   }, [continent, search])

@@ -164,9 +164,7 @@ const Details = () => {
           <BorderContainer>
             <Text sx={{ minWidth: "max-content", color: 'text.primary', flex: '0 0 1'}}>Border Countries: </Text>
             <Borders>
-              {data[0]?.borders && data[0].borders.map((border: string) => {                                
-                return <BorderCapital query={border} />
-              })}
+              {data[0]?.borders && data[0].borders.map((border: string) => <BorderCapital key={border} query={border} />)}
             </Borders>
           </BorderContainer>
         </InfoContainer>
