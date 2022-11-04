@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../components/header'
 import { Country, Currency, Language, useFetchCountryQuery } from "./country.slice"
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import BorderCapital from '../components/border-capital'
 
 const Container = styled(Box)(({ theme } : {theme?: Theme}) => ({
   width: '100%',
@@ -85,13 +86,6 @@ const Text = styled(Typography)(({theme} : {theme?: Theme}) => ({
   }
 })) as typeof Typography
 
-const Btn = styled(Button)(({ theme } : {theme?: Theme}) => ({
-  color: `${theme!.palette.text.primary}`,
-  display: 'flex',
-  alignItems: 'center',
-  gap: 10,
-}))
-
 const BkBtn = styled(Button)(({ theme } : {theme?: Theme}) => ({
   color: `${theme!.palette.text.primary}`,
   display: 'flex',
@@ -108,10 +102,9 @@ const BkBtn = styled(Button)(({ theme } : {theme?: Theme}) => ({
 
 const BorderContainer = styled(Stack)(({ theme } : { theme?: Theme }) => ({
   display: 'flex',
-  gap: 10,
-  marginTop: 70, 
+  gap: 30,
+  marginTop: 50, 
   flexDirection: 'row',
-  flexWrap: 'wrap',
   alignItems: 'center',
   
   [theme!.breakpoints.down('sm')]: {
@@ -138,8 +131,7 @@ const Borders = styled(Stack)(({ theme }: { theme?: Theme }) => ({
 const Details = () => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { data = [], isFetching } = useFetchCountryQuery<{ data: Country[], isFetching: boolean }>(`${pathname?.split('/')[2]}`)
-  // const { data: borders = [], isFetching: loading } = useFetchAlphaQuery<{ data: Country[], isFetching: boolean }>(query)  
+  const { data = [], isFetching } = useFetchCountryQuery<{ data: Country[], isFetching: boolean }>(`${pathname?.split('/')[2]}`) 
   
   
   return !isFetching && data.length ? (
@@ -170,10 +162,10 @@ const Details = () => {
             </Stack>
           </Infos>
           <BorderContainer>
-            <Text sx={{ width: "max-content", color: 'text.primary'}}>Border Countries: </Text>
+            <Text sx={{ minWidth: "max-content", color: 'text.primary', flex: '0 0 1'}}>Border Countries: </Text>
             <Borders>
-              {data[0]?.borders && data[0].borders.map((border: string, idx: number, arr: Array<string>) => {                                
-                return <Btn key={border} variant="contained">{border}</Btn>
+              {data[0]?.borders && data[0].borders.map((border: string) => {                                
+                return <BorderCapital query={border} />
               })}
             </Borders>
           </BorderContainer>

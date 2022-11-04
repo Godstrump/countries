@@ -47,9 +47,17 @@ export const countryApiSlice = createApi({
         fetchCountry: builder.query<Country, string | void>({
             query: (region) => `/name/${region}`,
         }),
-        fetchAlpha: builder.query<Country, Array<string> | void>({
+        fetchAlpha: builder.query<Country, string | void>({
             query: (code) => `/alpha/${code}`,
-            transformResponse: (response: Country) => response,
+            transformResponse: (
+                response: Country,
+                meta: unknown,
+                arg: unknown
+            ) => {
+                console.log(arg);
+
+                return response;
+            },
         }),
     }),
 });
