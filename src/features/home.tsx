@@ -29,16 +29,22 @@ const Home = () => {
   const { data, isFetching } = useFetchCountriesQuery<{data: Countries, isFetching: boolean}>(query)
 
   const handleFilter = (event: SelectChangeEvent) => {
+    const filter = event.target.value
     if(search.length) setSearch('')
     setContinent(event.target.value);
-    setQuery((state: Query) => ({ ...state, query: `/region/${event.target.value}` }))
+    if (!filter?.length && filter?.trim() === '' && !filter) {
+      return setQuery((state: Query) => ({ ...state, query: '' }))
+    }
+    setQuery((state: Query) => ({ ...state, query: `/region/${filter}` }))
   };
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value
-    if (!query) return setSearch("") 
     if(continent.length) setContinent('')
     setSearch(query)
+    if (!query?.length && query?.trim() === '' && !query) {
+      return setQuery((state: Query) => ({ ...state, query: '' }))
+    }
     setQuery((state: Query) => ({ ...state, query: `/name/${query}` }))
   }
 

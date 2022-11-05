@@ -28,8 +28,8 @@ const SelectInput: FC<FilterProps> = ({ filter, handleFilter }): ReactElement =>
           onChange={handleFilter}
         >
         <MenuItem disabled value="">Filter by Region</MenuItem>
-          {['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'].map((region) => 
-        <MenuItem key={region} value={region}>{region}</MenuItem>)}
+          {['All', 'Africa', 'Americas', 'Asia', 'Europe', 'Oceania'].map((region: string, idx: number) => 
+        <MenuItem key={region} value={idx === 0 ? '' : region}>{region}</MenuItem>)}
         </Select>
       </Control>
   )
