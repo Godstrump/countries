@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../components/header'
 import { Country, Currency, Language, useFetchCountryQuery } from "./country.slice"
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import BorderCapital from '../components/border-capital'
+import BorderCapital from '../components/border-countries'
 
 const Container = styled(Box)(({ theme } : {theme?: Theme}) => ({
   width: '100%',
@@ -197,7 +197,10 @@ const Details = () => {
               </Stack>
             </Infos>
             <BorderContainer>
-              <Skeleton animation="wave" width={500} />
+              <Skeleton animation="wave" width={200} />
+              <Borders>
+                <Skeleton animation="wave" width={400} />
+            </Borders>
             </BorderContainer>
           </InfoContainer>
         </Body>

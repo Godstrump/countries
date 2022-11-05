@@ -60,7 +60,7 @@ export const countryApiSlice = createApi({
             ) => {
                 const data = response?.slice(arg.skip, arg.limit);
                 return {
-                    totalSize: response?.length,
+                    totalSize: response?.length ? response?.length : 1,
                     data,
                 };
             },

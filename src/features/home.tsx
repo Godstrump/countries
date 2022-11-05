@@ -59,14 +59,16 @@ const Home = () => {
       setQuery((state) => ({ ...state, skip: (page - 1) * 20 , limit: 20 * page }))
     }
     setCurrentPage(page)
-  }, [])
+  }, []) 
+  
+  const handleCount = (size: number): number => isNaN(size) ? 1 : Math.ceil(size/20)
 
   return (
     <Container>
         <Header />
         <Filter search={search} handleSearch={handleSearch} filter={continent} handleFilter={handleFilter} />
         <CountryCard handleNavigation={handleNavigation} countries={data?.data} n={8} loading={isFetching} />
-        <PaginationMod handleChange={handlePage} page={currentPage} count={Math.ceil(data?.totalSize/20)} />
+        <PaginationMod handleChange={handlePage} page={currentPage} count={handleCount(data?.totalSize)} />
     </Container>
   )
 }

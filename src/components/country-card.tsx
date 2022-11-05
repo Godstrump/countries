@@ -3,6 +3,8 @@ import { Box, Card, CardContent, CardMedia, Skeleton, Stack, Typography } from "
 import { FC, ReactElement } from "react"
 import { Country } from "../features/country.slice"
 import type { Theme } from '@mui/material/styles'
+import Lottie from 'lottie-react';
+import Error from '../assets/error.json'
 
 const Wrapper = styled(Box)(({theme} : {theme?: Theme}) => ({
     marginTop: 50,
@@ -66,7 +68,7 @@ type CountryCardType = {
 const CountryCards: FC<CountryCardType> = ({ countries, n, loading, handleNavigation }): ReactElement => (
         <Wrapper>
             {
-                (loading ? Array.from(new Array(n)) : countries)?.map(
+               countries && !countries?.length ? <Lottie style={{ width: 180 }} animationData={Error} /> : (loading ? Array.from(new Array(n)) : countries)?.map(
                     (country, index) => (
                         <CountryCard key={index} onClick={() => handleNavigation(country.name)}>
                             {country ? (
