@@ -6,6 +6,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ColorModeContext from '../ColorModeContext';
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled('div')(({ theme }: { theme?: Theme }) => ({
     height: theme?.spacing(10),
@@ -48,11 +49,12 @@ const Icon =  styled(Typography)(({ theme }: { theme?: Theme }) => ({
 
 const Header = () => {
   const theme = useTheme()
+  const navigate = useNavigate()
   const {toggleColorMode} = useContext(ColorModeContext);
     
   return (
     <Container>
-        <Text variant="h5">Where in the world?</Text>
+        <Text sx={{ cursor: 'pointer' }} onClick={() => navigate('/')} variant="h5">Where in the world?</Text>
         <Text onClick={toggleColorMode} variant="h6">{theme.palette.mode === 'dark' ? <Icon component="span"><LightModeIcon /> Light mode</Icon> : <Icon component="span"><DarkModeIcon /> Dark mode</Icon>}</Text>
     </Container>
   )
