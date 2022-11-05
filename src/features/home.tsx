@@ -8,6 +8,7 @@ import type { Theme } from '@mui/material/styles'
 import { Countries, Query, useFetchCountriesQuery } from "./country.slice"
 import { useNavigate } from "react-router-dom"
 import PaginationMod from "../components/pagination"
+import debounce from "lodash.debounce"
 
 const Container = styled('div')(({theme}: {theme?: Theme}) => ({
   width: '100%',
@@ -28,6 +29,11 @@ const Home = () => {
 
   const { data, isFetching } = useFetchCountriesQuery<{data: Countries, isFetching: boolean}>(query)
 
+  const handleQuery = (query: string) => {
+    setCurrentPage(1)
+    setQuery((state: Query) => ({ ...state, skip: 0, limit: 20, query: `${query}` }))
+  }
+
   const handleFilter = (event: SelectChangeEvent) => {
     const filter = event.target.value
     if(search.length) setSearch('')
@@ -35,17 +41,19 @@ const Home = () => {
     if (!filter?.length && filter?.trim() === '' && !filter) {
       return setQuery((state: Query) => ({ ...state, query: '' }))
     }
-    setQuery((state: Query) => ({ ...state, query: `/region/${filter}` }))
+    handleQuery(`/region/${filter}`)
   };
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value
+    const text = e.target.value
     if(continent.length) setContinent('')
-    setSearch(query)
-    if (!query?.length && query?.trim() === '' && !query) {
+    setSearch(text)
+    if (!text?.length && text?.trim() === '' && !text) {
       return setQuery((state: Query) => ({ ...state, query: '' }))
     }
-    setQuery((state: Query) => ({ ...state, query: `/name/${query}` }))
+    debounce(() =>
+      handleQuery(`/name/${text}`), 500
+    )
   }
 
   const handleNavigation = (name: string) => {
