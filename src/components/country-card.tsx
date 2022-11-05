@@ -14,6 +14,7 @@ const Wrapper = styled(Box)(({theme} : {theme?: Theme}) => ({
 
     paddingLeft: 80,
     paddingRight: 80,
+    paddingBottom: 50,
     backgroundColor: theme!.palette.background.default,
 
     [theme!.breakpoints.down('sm')]: {

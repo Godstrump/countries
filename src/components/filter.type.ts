@@ -8,4 +8,10 @@ type FilterProps = {
     handleFilter?: ((event: SelectChangeEvent<string>) => void) | undefined;
 };
 
+export type PaginationProps = {
+    page: number;
+    count?: number;
+    handleChange: (event: ChangeEvent<unknown>, page: number) => void;
+};
+
 export default FilterProps;

@@ -39,20 +39,31 @@ export interface Country {
     subregion: string;
 }
 
+export type Countries = {
+    totalSize: number;
+    data: Country[];
+};
+
 export const countryApiSlice = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
         baseUrl: `${API_URL}`,
     }),
     endpoints: (builder) => ({
-        fetchCountries: builder.query<Country[], Query>({
+        fetchCountries: builder.query<Countries, Query>({
             query: (region) =>
                 region.query.length ? `${region.query}` : "/all",
             transformResponse: (
                 response: Country[],
                 meta: unknown,
                 arg: Query
-            ) => response?.slice(arg.skip, arg.skip + arg.limit),
+            ) => {
+                const data = response?.slice(arg.skip, arg.limit);
+                return {
+                    totalSize: response?.length,
+                    data,
+                };
+            },
         }),
         fetchCountry: builder.query<Country, string | void>({
             query: (region) => `/name/${region}`,

@@ -1,13 +1,13 @@
 import styled from "@emotion/styled"
 import { SelectChangeEvent } from "@mui/material"
-import { ChangeEvent  , useEffect, useState } from "react"
+import { ChangeEvent  , useCallback, useState } from "react"
 import CountryCard from "../components/country-card"
 import Filter from "../components/filter"
 import Header from "../components/header"
 import type { Theme } from '@mui/material/styles'
-import { Country, Query, useFetchCountriesQuery } from "./country.slice"
+import { Countries, Query, useFetchCountriesQuery } from "./country.slice"
 import { useNavigate } from "react-router-dom"
-import useScrollPosition from "../utils/usescroll-position"
+import PaginationMod from "../components/pagination"
 
 const Container = styled('div')(({theme}: {theme?: Theme}) => ({
   width: '100%',
@@ -20,13 +20,13 @@ const Container = styled('div')(({theme}: {theme?: Theme}) => ({
 
 const Home = () => {
   const navigate = useNavigate()
-  const scrollPosition = useScrollPosition()
 
   const [continent, setContinent] = useState('');
   const [search, setSearch] = useState('')
   const [query, setQuery] = useState<Query>({ skip: 0, limit: 20, query: '' })
+  const [currentPage, setCurrentPage] = useState(1)
 
-  const { data = [], isFetching } = useFetchCountriesQuery<{data: Country[], isFetching: boolean}>(query)
+  const { data, isFetching } = useFetchCountriesQuery<{data: Countries, isFetching: boolean}>(query)
 
   const handleFilter = (event: SelectChangeEvent) => {
     if(search.length) setSearch('')
@@ -44,22 +44,23 @@ const Home = () => {
 
   const handleNavigation = (name: string) => {
     navigate(`/country-details/${name}`)
-  }
+  }  
 
-  useEffect(() => {
-    if (scrollPosition > 1699) {
-      console.log('hello');
-      
-      setQuery((state) => ({ ...state, skip: state.skip + 20, limit: state.limit + 20 }))
+  const handlePage = useCallback((event: ChangeEvent<unknown>, page: number) => {    
+    if (page === 1) {
+      setQuery((state) => ({ ...state, skip: 0, limit: 20 }))
+    } else {
+      setQuery((state) => ({ ...state, skip: (page - 1) * 20 , limit: 20 * page }))
     }
-    
-  }, [scrollPosition])
+    setCurrentPage(page)
+  }, [])
 
   return (
     <Container>
         <Header />
         <Filter search={search} handleSearch={handleSearch} filter={continent} handleFilter={handleFilter} />
-        <CountryCard handleNavigation={handleNavigation} countries={data} n={8} loading={isFetching} />
+        <CountryCard handleNavigation={handleNavigation} countries={data?.data} n={8} loading={isFetching} />
+        <PaginationMod handleChange={handlePage} page={currentPage} count={Math.ceil(data?.totalSize/20)} />
     </Container>
   )
 }

@@ -177,7 +177,7 @@ const Details = () => {
             <Skeleton
               animation="wave"
               width={'100%'}
-              height={300}
+              height={400}
               variant="rectangular" />
           </Image>
           <InfoContainer>
