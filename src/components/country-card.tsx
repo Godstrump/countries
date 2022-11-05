@@ -57,6 +57,14 @@ const CountryDetail = styled(Typography)(({ theme }: {theme?: Theme}) => ({
     fontWeight: theme!.fonts.weights.light,
 })) as typeof Typography
 
+const ErrorLottie = styled(Lottie)(({theme} : {theme?: Theme}) => ({
+    width: 180, 
+    transform: 'translate(66%)',
+
+    [theme!.breakpoints.down(1366)]: {
+        transform: 'translate(0%)',
+    }
+})) as typeof Lottie
 
 type CountryCardType = {
     countries: Country[],
@@ -68,7 +76,7 @@ type CountryCardType = {
 const CountryCards: FC<CountryCardType> = ({ countries, n, loading, handleNavigation }): ReactElement => (
         <Wrapper>
             {
-               countries && !countries?.length ? <Lottie style={{ width: 180 }} animationData={Error} /> : (loading ? Array.from(new Array(n)) : countries)?.map(
+               countries && !countries?.length ? <ErrorLottie animationData={Error} /> : (loading ? Array.from(new Array(n)) : countries)?.map(
                     (country, index) => (
                         <CountryCard key={index} onClick={() => handleNavigation(country.name)}>
                             {country ? (
