@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const Container = styled('div')(({ theme }: { theme?: Theme }) => ({
     height: theme?.spacing(10),
-    boxShadow: `0px 0px 3px 1px ${theme!.palette.background.bs}`,
+    boxShadow: `0px 0px 2px .5px ${theme!.palette.background.bs}`,
     backgroundColor: theme!.palette.primary.main,
 
     display: 'flex',

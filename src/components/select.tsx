@@ -12,7 +12,7 @@ const Control = styled(FormControl)(({theme} : {theme?: Theme}) => ({
 
     '& div': {
         backgroundColor: theme!.palette.primary.main,
-        boxShadow: `0px 0px 2px 0px ${theme?.palette.background.bs}`,
+        boxShadow: `0px 0px 2px .1px ${theme?.palette.background.bs}`,
         border: 'none',
         outline: 'none',
     },
