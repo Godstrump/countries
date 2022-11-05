@@ -172,12 +172,12 @@ const Details = () => {
     </Container>
   ) : <Container>
         <Header />
-        <Body>
+        <Body sx={{ mt: 25 }}>
           <Image>
             <Skeleton
               animation="wave"
               width={'100%'}
-              height={400}
+              height={300}
               variant="rectangular" />
           </Image>
           <InfoContainer>
