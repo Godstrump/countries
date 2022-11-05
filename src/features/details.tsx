@@ -10,9 +10,9 @@ import BorderCapital from '../components/border-capital'
 
 const Container = styled(Box)(({ theme } : {theme?: Theme}) => ({
   width: '100%',
-  height: '97vh',
+  height: '100vh',
   // overflowX: 'hidden',
-  paddingBottom: 30,
+  paddingBottom: 100,
   
   backgroundColor: theme!.palette.background.default,
   [theme!.breakpoints.down('md')]: {

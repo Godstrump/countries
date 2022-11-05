@@ -7,6 +7,7 @@ import Header from "../components/header"
 import type { Theme } from '@mui/material/styles'
 import { Country, Query, useFetchCountriesQuery } from "./country.slice"
 import { useNavigate } from "react-router-dom"
+import useScrollPosition from "../utils/usescroll-position"
 
 const Container = styled('div')(({theme}: {theme?: Theme}) => ({
   width: '100%',
@@ -18,16 +19,19 @@ const Container = styled('div')(({theme}: {theme?: Theme}) => ({
 }))
 
 const Home = () => {
+  const navigate = useNavigate()
+  const scrollPosition = useScrollPosition()
+
   const [continent, setContinent] = useState('');
   const [search, setSearch] = useState('')
   const [query, setQuery] = useState<Query>({ skip: 0, limit: 20, query: '' })
 
-  const navigate = useNavigate()
   const { data = [], isFetching } = useFetchCountriesQuery<{data: Country[], isFetching: boolean}>(query)
 
   const handleFilter = (event: SelectChangeEvent) => {
     if(search.length) setSearch('')
     setContinent(event.target.value);
+    setQuery((state: Query) => ({ ...state, query: `/region/${event.target.value}` }))
   };
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,21 +39,21 @@ const Home = () => {
     if (!query) return setSearch("") 
     if(continent.length) setContinent('')
     setSearch(query)
+    setQuery((state: Query) => ({ ...state, query: `/name/${query}` }))
   }
 
   const handleNavigation = (name: string) => {
     navigate(`/country-details/${name}`)
-  }  
+  }
 
   useEffect(() => {
-    if (search.length) {
-      setQuery((state: Query) => ({ ...state, query: `/name/${search}` }))
-    } 
-    if (continent.length) {
-      setQuery((state: Query) => ({ ...state, query: `/region/${continent}` }))
+    if (scrollPosition > 1699) {
+      console.log('hello');
+      
+      setQuery((state) => ({ ...state, skip: state.skip + 20, limit: state.limit + 20 }))
     }
-  }, [continent, search])
-  
+    
+  }, [scrollPosition])
 
   return (
     <Container>
