@@ -1,6 +1,6 @@
+import { ChangeEvent, useMemo, useCallback, useState } from "react"
 import styled from "@emotion/styled"
 import { SelectChangeEvent } from "@mui/material"
-import { ChangeEvent  , useCallback, useState } from "react"
 import CountryCard from "../components/country-card"
 import Filter from "../components/filter"
 import Header from "../components/header"
@@ -34,7 +34,7 @@ const Home = () => {
     setQuery((state: Query) => ({ ...state, skip: 0, limit: 20, query: `${query}` }))
   }
 
-  const handleFilter = (event: SelectChangeEvent) => {
+  const handleFilter = useCallback((event: SelectChangeEvent) => {
     const filter = event.target.value
     if(search.length) setSearch('')
     setContinent(event.target.value);
@@ -42,20 +42,21 @@ const Home = () => {
       return setQuery((state: Query) => ({ ...state, query: '' }))
     }
     handleQuery(`/region/${filter}`)
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = useMemo(() => (e: ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value
     if(continent.length) setContinent('')
     setSearch(text)
     if (!text?.length && text?.trim() === '' && !text) {
       return setQuery((state: Query) => ({ ...state, query: '' }))
     }
-    debounce(() =>
-      handleQuery(`/name/${text}`), 500
-    )
-  }
-
+    const debounceSearch = debounce(() => handleQuery(`/name/${text}`), 500)
+    debounceSearch()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  
   const handleNavigation = (name: string) => {
     navigate(`/country-details/${name}`)
   }  
