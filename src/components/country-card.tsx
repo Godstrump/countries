@@ -78,7 +78,7 @@ const CountryCards: FC<CountryCardType> = ({ countries, n, loading, handleNaviga
             {
                countries && !countries?.length ? <ErrorLottie animationData={Error} /> : (loading ? Array.from(new Array(n)) : countries)?.map(
                     (country, index) => (
-                        <CountryCard key={index} onClick={() => handleNavigation(country.name)}>
+                        <CountryCard key={index} onClick={() => handleNavigation(country.name)} className={country ? "animate__animated animate__fadeIn animate__delay-0.6s" : ""}>
                             {country ? (
                                     <CardMedia
                                         component="img"

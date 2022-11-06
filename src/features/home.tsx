@@ -70,7 +70,7 @@ const Home = () => {
     setCurrentPage(page)
   }, []) 
   
-  const handleCount = (size: number): number => isNaN(size) ? 1 : Math.ceil(size/20)
+  const handleCount = (size: number): number => isNaN(size) ? 1 : Math.ceil(size/20)  
 
   return (
     <Container>
