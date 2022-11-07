@@ -9,7 +9,7 @@ import Error from '../assets/error.json'
 const Wrapper = styled(Box)(({theme} : {theme?: Theme}) => ({
     marginTop: 50,
     display: "grid",
-    gridTemplateColumns: 'repeat(auto-fit, minmax(241.5px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(241.5px, auto))',
     justifyContent: "center", 
     flexWrap: "wrap",
     gap: 80,
@@ -28,9 +28,13 @@ const Wrapper = styled(Box)(({theme} : {theme?: Theme}) => ({
 }))
 
 const CountryCard = styled(Card)(({ theme }: {theme?: Theme}) => ({
-    maxWidth: 374,
+    width: 'auto',
     backgroundColor: theme?.palette.primary.main,
     cursor: 'pointer',
+
+    [theme!.breakpoints.down('sm')]: {
+        width: 374
+    },
 })) as typeof Card
 
 const CountryName = styled(Typography)(({ theme }: { theme?: Theme}) => ({
