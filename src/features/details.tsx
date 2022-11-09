@@ -157,8 +157,8 @@ const Details = () => {
             </Stack>
             <Stack direction="column" spacing={1}>
               <Text>Top Level Domain: <Text component="span" variant="subtitle1">{data[0]?.topLevelDomain}</Text></Text>
-              <Text>Currencies: {data[0]?.currencies.length && data[0]?.currencies?.map((currency: Currency, idx: number, arr: Currency[]) => <Text key={currency?.name} component="span" variant="subtitle1">{idx === (arr.length - 1) ? currency?.name : `${currency?.name}, `}</Text>)}</Text>
-              <Text>Languages: {data[0]?.languages.length && data[0]?.languages?.map((language: Language, idx: number, arr: Language[]) => <Text key={language?.name} component="span" variant="subtitle1">{idx === (arr.length - 1) ? language?.name : `${language?.name}, `}</Text>)}</Text>
+              <Text>Currencies: {data[0]?.currencies?.length && data[0]?.currencies?.map((currency: Currency, idx: number, arr: Currency[]) => <Text key={currency?.name} component="span" variant="subtitle1">{idx === (arr.length - 1) ? currency?.name : `${currency?.name}, `}</Text>)}</Text>
+              <Text>Languages: {data[0]?.languages?.length && data[0]?.languages?.map((language: Language, idx: number, arr: Language[]) => <Text key={language?.name} component="span" variant="subtitle1">{idx === (arr.length - 1) ? language?.name : `${language?.name}, `}</Text>)}</Text>
             </Stack>
           </Infos>
           <BorderContainer>
